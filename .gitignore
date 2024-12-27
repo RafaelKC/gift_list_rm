@@ -59,3 +59,7 @@ dmypy.json
 
 # Docker
 .docker/
+
+./gift-list-frontend/.next
+./gift-list-frontend/.next/
+./gift-list-frontend/.next/*
