@@ -63,3 +63,7 @@ dmypy.json
 ./gift-list-frontend/.next
 ./gift-list-frontend/.next/
 ./gift-list-frontend/.next/*
+
+./gift-list-frontend/node_modules
+./gift-list-frontend/node_modules/
+./gift-list-frontend/node_modules/*
