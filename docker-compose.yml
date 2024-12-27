@@ -17,6 +17,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=123qwe
+      - MONGO_INITDB_DATABASE=gift_list_rm
 
 volumes:
   mongodb_data:
