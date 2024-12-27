@@ -85,6 +85,14 @@ class MongoDBClient:
             items.append(document)
         return items
 
+    async def get_all_gifts(self) -> List[dict]:
+        items = []
+        cursor = self.collection.find({})
+        async for document in cursor:
+            document["_id"] = str(document["_id"])
+            items.append(document)
+        return items
+
     async def get_gifts_by_selector_email(self, selector_email: str) -> List[dict]:
         items = []
         cursor = self.collection.find({"selector_email": selector_email})

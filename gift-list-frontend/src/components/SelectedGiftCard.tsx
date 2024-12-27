@@ -2,25 +2,25 @@ import { useState } from 'react';
 import { Gift } from '../types/gift';
 import { giftService } from '../services/api';
 
-interface GiftCardProps {
+interface SelectedGiftCardProps {
   gift: Gift;
-  onSelect: () => Promise<void>;
+  onDeselect: () => Promise<void>;
 }
 
-export default function GiftCard({ gift, onSelect }: GiftCardProps) {
-  const [isSelecting, setIsSelecting] = useState(false);
+export default function SelectedGiftCard({ gift, onDeselect }: SelectedGiftCardProps) {
+  const [isDeselecting, setIsDeselecting] = useState(false);
   const [error, setError] = useState('');
   const [imageLoaded, setImageLoaded] = useState(true);
 
-  const handleSelect = async () => {
+  const handleDeselect = async () => {
     setError('');
-    setIsSelecting(true);
+    setIsDeselecting(true);
     try {
-      await onSelect();
+      await onDeselect();
     } catch (err) {
-      setError('Falha ao selecionar presente');
+      setError('Falha ao deselecionar presente');
     } finally {
-      setIsSelecting(false);
+      setIsDeselecting(false);
     }
   };
 
@@ -53,19 +53,13 @@ export default function GiftCard({ gift, onSelect }: GiftCardProps) {
           </div>
           <div className="flex flex-col gap-2 flex-shrink-0 min-w-[120px]">
             {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-            {!gift.selector_email ? (
-              <button
-                onClick={handleSelect}
-                disabled={isSelecting}
-                className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSelecting ? 'Selecionando...' : 'Selecionar Presente'}
-              </button>
-            ) : (
-              <span className="text-sm text-gray-500 whitespace-nowrap">
-                Selecionado por: {gift.selector_email}
-              </span>
-            )}
+            <button
+              onClick={handleDeselect}
+              disabled={isDeselecting}
+              className="whitespace-nowrap bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isDeselecting ? 'Removendo...' : 'Remover Seleção'}
+            </button>
           </div>
         </div>
       </div>

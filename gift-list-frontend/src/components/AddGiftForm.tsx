@@ -7,7 +7,6 @@ interface AddGiftFormProps {
 }
 
 export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +32,6 @@ export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
         gift_description: '',
         gift_image_url: '',
       });
-      setIsOpen(false);
     } catch (error) {
       setError('Falha ao adicionar presente. Por favor, tente novamente.');
       console.error('Error adding gift:', error);
@@ -72,17 +70,6 @@ export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
       }
     }
   };
-
-  if (!isOpen) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mb-6"
-      >
-        Adicionar Novo Presente
-      </button>
-    );
-  }
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -165,13 +152,6 @@ export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
         </div>
 
         <div className="flex justify-end space-x-3">
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
-          >
-            Cancelar
-          </button>
           {error && (
             <p className="text-red-500 text-sm mt-2">{error}</p>
           )}

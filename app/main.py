@@ -75,6 +75,11 @@ async def delete_gift(gift_id: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# Get routes
+@app.get("/gifts/all", response_model=List[dict])
+async def get_all_gifts():
+    return await mongodb_client.get_all_gifts()
+
 @app.get("/gifts", response_model=List[dict])
 async def get_available_gifts():
     return await mongodb_client.get_available_gifts()

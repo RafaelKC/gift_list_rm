@@ -1,26 +1,25 @@
 import { useState } from 'react';
 import { Gift } from '../types/gift';
-import { giftService } from '../services/api';
 
-interface GiftCardProps {
+interface AdminGiftCardProps {
   gift: Gift;
-  onSelect: () => Promise<void>;
+  onDelete: () => Promise<void>;
 }
 
-export default function GiftCard({ gift, onSelect }: GiftCardProps) {
-  const [isSelecting, setIsSelecting] = useState(false);
+export default function AdminGiftCard({ gift, onDelete }: AdminGiftCardProps) {
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
   const [imageLoaded, setImageLoaded] = useState(true);
 
-  const handleSelect = async () => {
+  const handleDelete = async () => {
     setError('');
-    setIsSelecting(true);
+    setIsDeleting(true);
     try {
-      await onSelect();
+      await onDelete();
     } catch (err) {
-      setError('Falha ao selecionar presente');
+      setError('Falha ao excluir presente');
     } finally {
-      setIsSelecting(false);
+      setIsDeleting(false);
     }
   };
 
@@ -50,22 +49,23 @@ export default function GiftCard({ gift, onSelect }: GiftCardProps) {
             >
               Ver Item
             </a>
+            <div className="mt-2">
+              <span className="text-sm text-gray-500">
+                {gift.selector_email 
+                  ? `Selecionado por: ${gift.selector_email}`
+                  : 'Não selecionado'}
+              </span>
+            </div>
           </div>
           <div className="flex flex-col gap-2 flex-shrink-0 min-w-[120px]">
             {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-            {!gift.selector_email ? (
-              <button
-                onClick={handleSelect}
-                disabled={isSelecting}
-                className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSelecting ? 'Selecionando...' : 'Selecionar Presente'}
-              </button>
-            ) : (
-              <span className="text-sm text-gray-500 whitespace-nowrap">
-                Selecionado por: {gift.selector_email}
-              </span>
-            )}
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="whitespace-nowrap text-red-500 hover:text-red-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isDeleting ? 'Excluindo...' : 'Excluir'}
+            </button>
           </div>
         </div>
       </div>

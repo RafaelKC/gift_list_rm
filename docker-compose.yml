@@ -1,12 +1,13 @@
 services:
-  frontend:
-    build: ./gift-list-frontend/
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      - web
+  # frontend:
+  #   build: ./gift-list-frontend/
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NEXT_PUBLIC_API_URL=http://localhost:8000
+  #     - ADMIN_TOKEM=${ADMIN_TOKEM}
+  #   depends_on:
+  #     - web
 
   web:
     build: ./app/

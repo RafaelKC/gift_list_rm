@@ -15,9 +15,15 @@ const api = axios.create({
 });
 
 export const giftService = {
-  // Get all available gifts
+  // Get all available gifts (not selected)
   getAvailableGifts: async (): Promise<Gift[]> => {
     const response = await api.get('/gifts');
+    return response.data;
+  },
+
+  // Get all gifts (including selected ones)
+  getAllGifts: async (): Promise<Gift[]> => {
+    const response = await api.get('/gifts/all');
     return response.data;
   },
 
