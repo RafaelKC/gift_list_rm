@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "f181db46-6e17-487d-a26d-41394797136e",
+		"name": "GIFT_LIST_R&M",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16412612"
+	},
+	"item": [
+		{
+			"name": "Create Gift",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gift_link\": \"Link cool\",\r\n    \"gift_price\": 1.2,\r\n    \"gift_name\": \"Legal\",\r\n    \"gift_image_url\": \"http.com\",\r\n    \"gift_description\": \"adsdasd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_ENDPOINT}}/gifts",
+					"host": [
+						"{{BASE_ENDPOINT}}"
+					],
+					"path": [
+						"gifts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Selector Email",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"selector_email\": \"rafaelkaua97@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_ENDPOINT}}/gifts/676e07f99736646a164706f2/selector",
+					"host": [
+						"{{BASE_ENDPOINT}}"
+					],
+					"path": [
+						"gifts",
+						"676e07f99736646a164706f2",
+						"selector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Available Gifts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"selector_email\": \"rafaekaua97@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_ENDPOINT}}/gifts",
+					"host": [
+						"{{BASE_ENDPOINT}}"
+					],
+					"path": [
+						"gifts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Gift for select email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"selector_email\": \"rafaekaua97@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_ENDPOINT}}/gifts/selector/rafaelkaua97@gmail.com",
+					"host": [
+						"{{BASE_ENDPOINT}}"
+					],
+					"path": [
+						"gifts",
+						"selector",
+						"rafaelkaua97@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gift",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"selector_email\": \"rafaekaua97@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_ENDPOINT}}/gifts/676e07f99736646a164706f2",
+					"host": [
+						"{{BASE_ENDPOINT}}"
+					],
+					"path": [
+						"gifts",
+						"676e07f99736646a164706f2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_ENDPOINT",
+			"value": "localhost:8000",
+			"type": "string"
+		}
+	]
+}

@@ -1,12 +1,14 @@
 services:
-  # web:
-  #   build: ./app/
-  #   ports:
-  #     - "8000:8000"
-  #   environment:
-  #     - MONGO_URL=mongodb://mongodb:27017
-  #   depends_on:
-  #     - mongodb
+  web:
+    build: ./app/
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MONGO_URL=mongodb://admin:${MONGO_PASSWORD}@mongodb:27017/gift_list_rm?authSource=admin
+    depends_on:
+      - mongodb
 
   mongodb:
     image: mongo:latest
