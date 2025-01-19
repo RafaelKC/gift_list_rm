@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { GiftCreate } from '../types/gift';
-import { fetchProductDetails } from '../services/product-details';
+import {giftService} from "@/services/api";
 
 interface AddGiftFormProps {
   onSubmit: (gift: GiftCreate) => Promise<void>;
@@ -49,22 +49,22 @@ export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
       [name]: name === 'gift_price' ? parseFloat(value) || 0 : value,
     }));
 
-    // Try to fetch metadata for any valid URL
     if (name === 'gift_link' && value && value.startsWith('http')) {
+      if (!value.includes('mercadolivre.com.br')) return;
+
       setIsLoadingProduct(true);
       setError('');
       try {
-        const productDetails = await fetchProductDetails(value);
+        const productDetails = await giftService.getProductsDetails(value);
         setFormData(prev => ({
           ...prev,
-          gift_name: productDetails.title || prev.gift_name,
-          gift_price: productDetails.price || prev.gift_price,
-          gift_description: productDetails.description || prev.gift_description,
-          gift_image_url: productDetails.image || prev.gift_image_url,
+          gift_name: productDetails?.title || prev.gift_name,
+          gift_price: productDetails?.price || prev.gift_price,
+          gift_description: productDetails?.description || prev.gift_description,
+          gift_image_url: productDetails?.image || prev.gift_image_url,
         }));
       } catch (err) {
         console.error('Failed to fetch product details:', err);
-        // Don't show error to user, silently fail as this is an enhancement
       } finally {
         setIsLoadingProduct(false);
       }
