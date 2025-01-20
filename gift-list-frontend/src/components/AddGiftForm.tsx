@@ -50,7 +50,7 @@ export default function AddGiftForm({ onSubmit }: AddGiftFormProps) {
     }));
 
     if (name === 'gift_link' && value && value.startsWith('http')) {
-      if (!value.includes('mercadolivre.com.br')) return;
+      if (!value.includes('mercadolivre.com.br') && !value.includes('amazon')) return;
 
       setIsLoadingProduct(true);
       setError('');

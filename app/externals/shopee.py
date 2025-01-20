@@ -1,43 +1,58 @@
-import re
 import requests
+import time
+import hmac
+import hashlib
 
 
-def extract_ids_from_url(url):
-    pattern = r"i\.(\d+)\.(\d+)"
-    match = re.search(pattern, url)
-    if match:
-        shop_id, item_id = match.groups()
-        return shop_id, item_id
-    else:
-        raise ValueError("Invalid Shopee URL format")
+# Função para assinar a requisição usando o Partner Key
+def sign_request(partner_key, params):
+    sorted_params = sorted(params.items())
+    query_string = '&'.join([f'{key}={value}' for key, value in sorted_params])
+    query_string += f'&partner_key={partner_key}'
+
+    # Gerar assinatura usando HMAC-SHA256
+    signature = hmac.new(partner_key.encode('utf-8'), query_string.encode('utf-8'), hashlib.sha256).hexdigest().upper()
+    return signature
 
 
-def get_shopee_product_details(url):
-    try:
-        shop_id, item_id = extract_ids_from_url(url)
+# Função para obter detalhes do produto
+def get_shopee_product_details(partner_id, partner_key, item_id):
+    url = 'https://partner.shopeemobile.com/api/v1/item/get'
 
-        api_url = f"https://shopee.com/api/v4/item/get"
-        params = {"itemid": item_id, "shopid": shop_id}
+    # Parâmetros da requisição
+    params = {
+        'partner_id': partner_id,
+        'item_id': item_id,
+        'timestamp': int(time.time())
+    }
 
-        response = requests.get(api_url, params=params)
-        response.raise_for_status()
+    # Assinar a requisição
+    signature = sign_request(partner_key, params)
+    params['sign'] = signature
 
+    # Enviar a requisição
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
         data = response.json()
-        if "data" in data:
-            product = data["data"]
+        if 'item' in data:
+            item = data['item']
             return {
-                "name": product["name"],
-                "price": product["price"] / 100000,
-                "image": f'https://cf.shopee.com.my/file/{product["image"]}',
-                "description": product["description"]
+                "title": item.get("name", "Título não encontrado"),
+                "price": item.get("price", "Preço não encontrado"),
+                "image": item.get("image", "Imagem não encontrada"),
+                "description": item.get("description", "Descrição não encontrada")
             }
         else:
-            raise Exception("No product data found in the response")
-    except Exception as e:
-        return {"error": str(e)}
+            return {"error": "Produto não encontrado"}
+    else:
+        return {"error": f"Erro na requisição: {response.status_code}"}
 
 
-if __name__ == "__main__":
-    product_url = input("Enter Shopee product URL: ")
-    details = get_shopee_product_details(product_url)
-    print(details)
+# Exemplo de uso
+partner_id = 'SEU_PARTNER_ID_AQUI'
+partner_key = 'SEU_PARTNER_KEY_AQUI'
+item_id = 'ID_DO_PRODUTO_AQUI'
+
+product_details = get_shopee_product_details(partner_id, partner_key, item_id)
+print(product_details)

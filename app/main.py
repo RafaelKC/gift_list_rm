@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 
 from dtos.product_datails import ProductDetails
+from externals.amazon import get_amazon_product_rainforest
 from externals.mercado_livre import get_product_details as mercado_livre_get_product_details
 from mongodb_client import MongoDBClient
 
@@ -99,6 +100,8 @@ async def get_gifts_by_selector(selector_email: str):
 async def get_products_by_url(product_url: str) -> ProductDetails | HTTPException:
     if 'mercadolivre.com.br' in  product_url:
         return mercado_livre_get_product_details(product_url)
+    if 'amazon' in  product_url:
+        return get_amazon_product_rainforest(product_url)
     else:
         return HTTPException(status_code=400, detail='Invalid Source')
 

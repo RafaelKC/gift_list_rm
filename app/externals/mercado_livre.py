@@ -43,5 +43,5 @@ def get_product_details(product_url: str, access_token: str = None) -> ProductDe
         "title": product["title"],
         "price": product["price"],
         "image": product["pictures"][0]["secure_url"] if product.get("pictures") else None,
-        "description": product.get("plain_text", "No description available"),
+        "description": product.get("plain_text", ""),
     }
