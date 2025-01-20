@@ -97,7 +97,7 @@ async def get_gifts_by_selector(selector_email: str):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/products", response_model=ProductDetails)
-async def get_products_by_url(product_url: str) -> ProductDetails | HTTPException:
+async def get_products_by_url(product_url: str) -> ProductDetails or HTTPException:
     if 'mercadolivre.com.br' in  product_url:
         return mercado_livre_get_product_details(product_url)
     if 'amazon' in  product_url:
